@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+backend/node_modules/
+
+# builds
+/dist/
+backend/dist/
+
+# vite / ts artifacts
+*.tsbuildinfo
+
+# env files (keep .env.example)
+.env
+backend/.env
+
+# logs
+*.log
+
+# OS / IDE
+.DS_Store
+.vscode/
+
+# misc
+*.local
+coverage/
