@@ -13,6 +13,8 @@ interface Props {
 export default function SmartSearch({ onClose, onSelect }: Props) {
   const { lang } = useLang()
   const [query, setQuery] = useState('')
+  const searchPlaceholder = lang === 'uk' ? 'Пошук товарів...' : lang === 'ru' ? 'Поиск товаров...' : 'Search products...'
+  const noResultsText = lang === 'uk' ? 'Нічого не знайдено' : lang === 'ru' ? 'Ничего не найдено' : 'No results found'
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -54,7 +56,7 @@ export default function SmartSearch({ onClose, onSelect }: Props) {
             autoFocus
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder={lang === 'uk' ? 'Пошук товарів...' : 'Search products...'}
+            placeholder={searchPlaceholder}
             className="flex-1 bg-transparent outline-none text-white placeholder:text-white/40 text-sm sm:text-base"
           />
           <button
@@ -74,7 +76,7 @@ export default function SmartSearch({ onClose, onSelect }: Props) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                {lang === 'uk' ? 'Нічого не знайдено' : 'No results found'}
+                {noResultsText}
               </motion.div>
             ) : (
               filtered.map((item, idx) => (
