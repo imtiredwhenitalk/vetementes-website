@@ -44,8 +44,77 @@ export default function AuthModal({ onClose, onAuth }: Props) {
     animate: { opacity: 1, y: 0 },
   }
 
+  const uiText = {
+    fallbackError: lang === 'uk'
+      ? 'Сталася помилка. Спробуйте ще раз.'
+      : lang === 'ru'
+        ? 'Произошла ошибка. Попробуйте еще раз.'
+        : 'Something went wrong. Please try again.',
+    requiredLogin: lang === 'uk'
+      ? 'Заповніть email і пароль'
+      : lang === 'ru'
+        ? 'Заполните email и пароль'
+        : 'Please fill in email and password',
+    requiredFields: lang === 'uk'
+      ? 'Заповніть всі обов\'язкові поля'
+      : lang === 'ru'
+        ? 'Заполните все обязательные поля'
+        : 'Please fill in all required fields',
+    minPassword: lang === 'uk'
+      ? 'Пароль має містити мінімум 6 символів'
+      : lang === 'ru'
+        ? 'Пароль должен содержать минимум 6 символов'
+        : 'Password must be at least 6 characters',
+    mismatchPassword: lang === 'uk'
+      ? 'Паролі не співпадають'
+      : lang === 'ru'
+        ? 'Пароли не совпадают'
+        : 'Passwords do not match',
+    loginSubtitle: lang === 'uk'
+      ? 'Увійдіть, щоб продовжити покупки'
+      : lang === 'ru'
+        ? 'Войдите, чтобы продолжить покупки'
+        : 'Sign in to continue shopping',
+    registerSubtitle: lang === 'uk'
+      ? 'Створіть акаунт за хвилину'
+      : lang === 'ru'
+        ? 'Создайте аккаунт за минуту'
+        : 'Create your account in a minute',
+    passwordPlaceholder: lang === 'uk'
+      ? 'Введіть пароль'
+      : lang === 'ru'
+        ? 'Введите пароль'
+        : 'Enter password',
+    signingIn: lang === 'uk'
+      ? 'Виконується вхід...'
+      : lang === 'ru'
+        ? 'Выполняется вход...'
+        : 'Signing in...',
+    min6Placeholder: lang === 'uk'
+      ? 'Мінімум 6 символів'
+      : lang === 'ru'
+        ? 'Минимум 6 символов'
+        : 'At least 6 characters',
+    confirmPassword: lang === 'uk'
+      ? 'Підтвердіть пароль'
+      : lang === 'ru'
+        ? 'Подтвердите пароль'
+        : 'Confirm password',
+    repeatPassword: lang === 'uk'
+      ? 'Повторіть пароль'
+      : lang === 'ru'
+        ? 'Повторите пароль'
+        : 'Repeat password',
+    creatingAccount: lang === 'uk'
+      ? 'Створення акаунту...'
+      : lang === 'ru'
+        ? 'Создание аккаунта...'
+        : 'Creating account...',
+    phone: lang === 'uk' ? 'Телефон' : lang === 'ru' ? 'Телефон' : 'Phone',
+  }
+
   const normalizeApiError = (e: unknown): string => {
-    const fallback = lang === 'uk' ? 'Сталася помилка. Спробуйте ще раз.' : 'Something went wrong. Please try again.'
+    const fallback = uiText.fallbackError
     if (e && typeof e === 'object') {
       const err = e as { error?: string; message?: string }
       return err.error || err.message || fallback
@@ -58,7 +127,7 @@ export default function AuthModal({ onClose, onAuth }: Props) {
     setError('')
 
     if (!form.email.trim() || !form.password) {
-      setError(lang === 'uk' ? 'Заповніть email і пароль' : 'Please fill in email and password')
+      setError(uiText.requiredLogin)
       return
     }
 
@@ -90,15 +159,15 @@ export default function AuthModal({ onClose, onAuth }: Props) {
 
     setError('')
     if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim() || !form.password) {
-      setError(lang === 'uk' ? 'Заповніть всі обов\'язкові поля' : 'Please fill in all required fields')
+      setError(uiText.requiredFields)
       return
     }
     if (form.password.length < 6) {
-      setError(lang === 'uk' ? 'Пароль має містити мінімум 6 символів' : 'Password must be at least 6 characters')
+      setError(uiText.minPassword)
       return
     }
     if (form.password !== form.confirmPassword) {
-      setError(lang === 'uk' ? 'Паролі не співпадають' : 'Passwords do not match')
+      setError(uiText.mismatchPassword)
       return
     }
 
@@ -180,8 +249,8 @@ export default function AuthModal({ onClose, onAuth }: Props) {
           </motion.h1>
           <p className="mt-3 text-white/55 text-base md:text-lg leading-relaxed">
             {tab === 'login'
-              ? (lang === 'uk' ? 'Увійдіть, щоб продовжити покупки' : 'Sign in to continue shopping')
-              : (lang === 'uk' ? 'Створіть акаунт за хвилину' : 'Create your account in a minute')}
+              ? uiText.loginSubtitle
+              : uiText.registerSubtitle}
           </p>
         </div>
 
@@ -243,7 +312,7 @@ export default function AuthModal({ onClose, onAuth }: Props) {
                   <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
                   <input
                     type={showPass ? 'text' : 'password'}
-                    placeholder={lang === 'uk' ? 'Введіть пароль' : 'Enter password'}
+                    placeholder={uiText.passwordPlaceholder}
                     value={form.password}
                     onChange={e => set('password', e.target.value)}
                     required
@@ -276,7 +345,7 @@ export default function AuthModal({ onClose, onAuth }: Props) {
                 className="mt-6 w-full h-12 md:h-14 bg-[var(--color-brand)] text-black font-semibold text-xs md:text-sm tracking-[0.05em] uppercase rounded-lg hover:bg-[var(--color-brand-light)] transition-colors disabled:opacity-60 shadow-[0_10px_28px_rgba(87,230,203,0.24)]"
               >
                 {loading
-                  ? (lang === 'uk' ? 'Виконується вхід...' : 'Signing in...')
+                  ? uiText.signingIn
                   : t.auth.loginBtn}
               </motion.button>
 
@@ -326,7 +395,7 @@ export default function AuthModal({ onClose, onAuth }: Props) {
               </div>
 
               <motion.div className="space-y-2.5" variants={fieldAnim} initial="initial" animate="animate" transition={{ delay: 0.1 }}>
-                <label className="block text-white/80 text-sm md:text-base">Телефон</label>
+                <label className="block text-white/80 text-sm md:text-base">{uiText.phone}</label>
                 <div className="relative">
                   <input
                     type="tel"
@@ -359,7 +428,7 @@ export default function AuthModal({ onClose, onAuth }: Props) {
                   <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
                   <input
                     type={showPass ? 'text' : 'password'}
-                    placeholder={lang === 'uk' ? 'Мінімум 6 символів' : 'At least 6 characters'}
+                    placeholder={uiText.min6Placeholder}
                     value={form.password}
                     onChange={e => set('password', e.target.value)}
                     required
@@ -378,13 +447,13 @@ export default function AuthModal({ onClose, onAuth }: Props) {
 
               <motion.div className="space-y-2.5" variants={fieldAnim} initial="initial" animate="animate" transition={{ delay: 0.2 }}>
                 <label className="block text-white/80 text-sm md:text-base">
-                  {lang === 'uk' ? 'Підтвердіть пароль' : 'Confirm password'}
+                  {uiText.confirmPassword}
                 </label>
                 <div className="relative">
                   <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" />
                   <input
                     type={showConfirmPass ? 'text' : 'password'}
-                    placeholder={lang === 'uk' ? 'Повторіть пароль' : 'Repeat password'}
+                    placeholder={uiText.repeatPassword}
                     value={form.confirmPassword}
                     onChange={e => set('confirmPassword', e.target.value)}
                     required
@@ -418,7 +487,7 @@ export default function AuthModal({ onClose, onAuth }: Props) {
                 className="mt-7 w-full h-[3.25rem] md:h-[3.5rem] bg-[var(--color-brand)] text-black font-semibold text-sm md:text-base tracking-[0.05em] uppercase rounded-lg hover:bg-[var(--color-brand-light)] transition-colors disabled:opacity-60 shadow-[0_10px_28px_rgba(87,230,203,0.24)]"
               >
                 {loading
-                  ? (lang === 'uk' ? 'Створення акаунту...' : 'Creating account...')
+                  ? uiText.creatingAccount
                   : t.auth.registerBtn}
               </motion.button>
 
