@@ -19,6 +19,8 @@ export default function Navbar({ onCartClick, onAuthClick, onAccountClick, onSea
   const [menuOpen, setMenuOpen] = useState(false)
   const { toggleCart, totalItems, justAdded } = useCart()
   const { lang, setLang, t } = useLang()
+  const nextLang = lang === 'uk' ? 'en' : lang === 'en' ? 'ru' : 'uk'
+  const nextLangLabel = nextLang === 'uk' ? 'UA' : nextLang.toUpperCase()
 
   const navLinks = [
     { name: t.nav.collections, href: '#collections' },
@@ -91,11 +93,11 @@ export default function Navbar({ onCartClick, onAuthClick, onAccountClick, onSea
           <div className="flex items-center gap-2 sm:gap-3 justify-end">
             {/* Language toggle */}
             <button
-              onClick={() => setLang(lang === 'uk' ? 'en' : 'uk')}
+              onClick={() => setLang(nextLang)}
               className="text-white/60 hover:text-white transition-colors text-xs tracking-[0.15em] uppercase font-semibold border border-white/15 hover:border-[var(--color-brand)]/50 px-2.5 py-1 rounded-lg"
               data-cursor-hover
             >
-              {lang === 'uk' ? 'EN' : 'UA'}
+              {nextLangLabel}
             </button>
 
             <button
@@ -205,10 +207,10 @@ export default function Navbar({ onCartClick, onAuthClick, onAccountClick, onSea
           )}
           <span className="text-white/20">|</span>
           <button
-            onClick={() => setLang(lang === 'uk' ? 'en' : 'uk')}
+            onClick={() => setLang(nextLang)}
             className="text-white/60 text-sm tracking-[0.2em] uppercase"
           >
-            {lang === 'uk' ? 'EN' : 'UA'}
+            {nextLangLabel}
           </button>
         </motion.div>
       </motion.div>
