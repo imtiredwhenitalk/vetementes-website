@@ -12,12 +12,14 @@ export default function Marquee() {
     '✦',
     'DESIGNED IN KYIV',
     '✦',
+    'SHOP NOW AT VETEMENTES.COM',
+    '✦',
   ]
 
   return (
-    <div className="relative py-6 md:py-8 bg-[var(--color-brand)] overflow-hidden select-none">
-      <div className="animate-marquee flex whitespace-nowrap">
-        {[...items, ...items, ...items, ...items].map((item, i) => (
+    <div className="relative py-6 md:py-8 bg-[var(--color-brand)] overflow-hidden motion-reduce:overflow-visible select-none">
+      <div className="animate-marquee flex whitespace-nowrap motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:whitespace-normal">
+        {[...items, ...items].map((item, i) => (
           <span
             key={i}
             className="mx-8 text-black text-xs font-semibold tracking-[0.3em] uppercase"
