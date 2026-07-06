@@ -6,3 +6,6 @@ dist/
 *.local
 coverage/
 .vscode/
+src/__tests__/**
+middleware/console.ts
+models/claim.ts
